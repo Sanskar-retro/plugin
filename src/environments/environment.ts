@@ -4,11 +4,6 @@
 
 export const environment = {
   production: false,
-  retrotaxDomain: "http://localhost:4200/auth/auto-login?token=",
-  agileDomain: "https://agile-qa.retrotax-aci.com",
-  apiDomain: "https://api-qa.retrotax-aci.com",
-  apiKey: "yqvNrVR5Cs6vhLq1ZRPq38GM5OrXJ7C97n4BZCJa",
-  encryptKey: "6F6B675D5B020C3BCF0FE5D5BBDCF312"
 };
 
 /*
