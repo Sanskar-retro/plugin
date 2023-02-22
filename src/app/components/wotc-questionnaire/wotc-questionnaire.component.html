@@ -1,0 +1,1253 @@
+<div class="questionnaire-form">
+    <mat-card class="card-padding" ngClass="r-box-shadow">
+      <mat-card-content>
+        <div class="bd-callout bd-callout-danger" *ngIf="employee?.data?.questionnaire?.hasErrors || PluginFormError">
+          <h6> Please complete the Questionnaire Information.</h6>
+          <div>
+            <ul>
+              <li
+                *ngIf="questionnaireForm.controls['afdc'].errors && questionnaireForm.controls['afdc'].errors['required']">
+                TANF question must be Yes or No.
+              </li>
+              <li
+                *ngIf="questionnaireForm.controls['food_stamps'].errors && questionnaireForm.controls['food_stamps'].errors['required']">
+                SNAP question must be Yes or No.
+              </li>
+              <li
+                *ngIf="questionnaireForm.controls['ssi'].errors && questionnaireForm.controls['ssi'].errors['required']">
+                SSI question must be Yes or No.
+              </li>
+              <li
+                *ngIf="questionnaireForm.controls['voc_rehab'].errors && questionnaireForm.controls['voc_rehab'].errors['required']">
+                Vocational Rehabilitation question must be Yes or No.
+              </li>
+              <li
+                *ngIf="questionnaireForm.controls['veteran'].errors && questionnaireForm.controls['veteran'].errors['required']">
+                Veteran of the U.S. Military question must be Yes or No.
+              </li>
+              <li
+                *ngIf="questionnaireForm.controls['unemployed'].errors && questionnaireForm.controls['unemployed'].errors['required']">
+                Unemployed question must be Yes or No.
+              </li>
+              <li
+                *ngIf="questionnaireForm.controls['felon'].errors && questionnaireForm.controls['felon'].errors['required']">
+                Felony question must be Yes or No.
+              </li>
+              <li
+                *ngIf="questionnaireForm.controls['cdib'].errors && questionnaireForm.controls['cdib'].errors['required']">
+                Native American Tribe question must be Yes or No.
+              </li>
+              <li
+                *ngIf="questionnaireForm.controls['conditional_cert'].errors && questionnaireForm.controls['conditional_cert'].errors['required']">
+                Conditional Certification question must be Yes or No.
+              </li>
+              <li
+                *ngIf="questionnaireForm.controls['ca_foster'].errors && questionnaireForm.controls['ca_foster'].errors['required']">
+                Foster Parents question must be Yes or No.
+              </li>
+              <li
+                *ngIf="questionnaireForm.controls['ca_cal_works'].errors && questionnaireForm.controls['ca_cal_works'].errors['required']">
+                CalWorks question must be Yes or No.
+              </li>
+              <li
+                *ngIf="questionnaireForm.controls['ca_wia'].errors && questionnaireForm.controls['ca_wia'].errors['required']">
+                Workforce Investment Act question must be Yes or No.
+              </li>
+              <li
+                *ngIf="questionnaireForm.controls['ca_farmer'].errors && questionnaireForm.controls['ca_farmer'].errors['required']">
+                Migrant or Seasonal Farm Worker question must be Yes or No.
+              </li>
+              <li
+                *ngIf="questionnaireForm.controls['ca_misdemeanor'].errors && questionnaireForm.controls['ca_misdemeanor'].errors['required']">
+                Misdemeanor question must be Yes or No.
+              </li>
+              <li
+                *ngIf="questionnaireForm.controls['sc_fib'].errors && questionnaireForm.controls['sc_fib'].errors['required']">
+                Family Independence Benefits question must be Yes or No.
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- WOTC FORMS ------------------------------------------------------ -->
+        
+        
+        <form [formGroup]="questionnaireForm">
+  
+  
+          <div class="row">
+            <!-- <hr /> -->
+  
+            <div class="col-9">
+              <mat-label>Have you or has anyone living with you received Temporary Assistance to Needy
+                Families (TANF) at
+                any time since August 5, 1997? *</mat-label>
+            </div>
+  
+            <div class="col-3">
+              <mat-radio-group formControlName="afdc" class="radio" (change)="checkGeoQualify($event, 'tanf')">
+                <mat-radio-button [value]="true" color="primary" class="demo">Yes</mat-radio-button>
+                <mat-radio-button [value]="false" color="warn">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+  
+            <div *ngIf="questionnaireForm?.value?.afdc">
+              <div class="bd-callout bd-callout-danger" *ngIf="employee?.data?.afdc_recipient_info?.hasErrors">
+                <h6>Please complete the TANF Benefits Recipient Information.</h6>
+                <div>
+                  <ul>
+                    <li *ngIf="tanfForm.controls['name'].errors && tanfForm.controls['name'].errors['required']">
+                      Recipient Name is required.
+                    </li>
+                    <li *ngIf="tanfForm.controls['name'].errors && tanfForm.controls['name'].errors['minlength']">
+                      Recipient Name minimum length should be 2.
+                    </li>
+                    <li
+                      *ngIf="tanfForm.controls['relationship'].errors && tanfForm.controls['relationship'].errors['required']">
+                      Recipient Relationship is required.
+                    </li>
+                    <li
+                      *ngIf="tanfForm.controls['relationship'].errors && tanfForm.controls['relationship'].errors['minlength']">
+                      Recipient Relationship minimum length should be 2.
+                    </li>
+                    <li
+                      *ngIf="tanfForm.controls['city_received'].errors && tanfForm.controls['city_received'].errors['required']">
+                      Recipient City is required.
+                    </li>
+                    <li
+                      *ngIf="tanfForm.controls['city_received'].errors && tanfForm.controls['city_received'].errors['minlength']">
+                      Recipient Cityminimum length should be 2.
+                    </li>
+                    <li
+                      *ngIf="tanfForm.controls['state_received'].errors && tanfForm.controls['state_received'].errors['required']">
+                      Recipient State is required.
+                    </li>
+                    <li
+                      *ngIf="tanfForm.controls['county_received'].errors && tanfForm.controls['county_received'].errors['required']">
+                      Recipient County is required.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card card-top">
+                <div class="card-header">
+                  TANF Benefits Recipient Details
+                </div>
+                <div class="card-body">
+                  <form [formGroup]="tanfForm">
+                    <div class="row form-row-padding">
+                      <div class="col-md-6">
+                        <mat-form-field class="input-full-width">
+                          <mat-label>Recepient Name</mat-label>
+                          <input matInput formControlName="name" (keydown)="alphaOnly($event)"
+                            (paste)="alphaOnly($event)">
+                        </mat-form-field>
+                        <div
+                          *ngIf="(tanfForm.controls['name'].dirty || tanfForm.controls['name'].touched) && tanfForm.controls['name'].errors">
+                          <mat-error *ngIf="tanfForm.controls['name'].errors['required']">
+                            Recepient Name is required.
+                          </mat-error>
+                          <mat-error *ngIf="tanfForm.controls['name'].errors['minlength']">
+                            Recepient Name minimum length should be 2.
+                          </mat-error>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <mat-form-field class="input-full-width">
+                          <mat-label>Recepient Relationship</mat-label>
+                          <input matInput formControlName="relationship">
+                        </mat-form-field>
+                        <div
+                          *ngIf="(tanfForm.controls['relationship'].dirty || tanfForm.controls['relationship'].touched) && tanfForm.controls['relationship'].errors">
+                          <mat-error *ngIf="tanfForm.controls['relationship'].errors['required']">
+                            Recepient relationship is required.
+                          </mat-error>
+                          <mat-error *ngIf="tanfForm.controls['relationship'].errors['minlength']">
+                            Recepient relationship minimum length should be 2.
+                          </mat-error>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row form-row-padding">
+                      <div class="col-md-4">
+                        <mat-form-field class="input-full-width">
+                          <mat-label>City</mat-label>
+                          <input matInput formControlName="city_received">
+                        </mat-form-field>
+                        <div
+                          *ngIf="(tanfForm.controls['city_received'].dirty || tanfForm.controls['city_received'].touched) && tanfForm.controls['city_received'].errors">
+                          <mat-error *ngIf="tanfForm.controls['city_received'].errors['required']">
+                            Recipient City is required.
+                          </mat-error>
+                          <mat-error *ngIf="tanfForm.controls['city_received'].errors['minlength']">
+                            Recipient City minimum length should be 2.
+                          </mat-error>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field class="input-full-width">
+                          <mat-label>State</mat-label>
+                          <mat-select formControlName="state_received"
+                            (selectionChange)="afdcSelectedState($event.value)">
+                            <mat-option *ngFor="let state of states" [value]="state">
+                              {{state.name}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                        <div
+                          *ngIf="(tanfForm.controls['state_received'].dirty || tanfForm.controls['state_received'].touched) && tanfForm.controls['state_received'].errors">
+                          <mat-error *ngIf="tanfForm.controls['state_received'].errors['required']">
+                            Recipient state is required.
+                          </mat-error>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field class="input-full-width">
+                          <mat-label>County</mat-label>
+                          <mat-select formControlName="county_received">
+                            <mat-option *ngFor="let county of afdcCounties" [value]="county">
+                              {{county.name}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                        <div
+                          *ngIf="(tanfForm.controls['county_received'].dirty || tanfForm.controls['county_received'].touched) && tanfForm.controls['county_received'].errors">
+                          <mat-error *ngIf="tanfForm.controls['county_received'].errors['required']">
+                            Recipient county is required.
+                          </mat-error>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr />
+  
+          <div class="row">
+            <div class="col-9">
+              <mat-label>Have you or has anyone living with you received Food Stamps (SNAP) at any time during the past 15
+                months? *</mat-label>
+            </div>
+            <div class="col-3">
+              <mat-radio-group formControlName="food_stamps" class="radio" (change)="checkGeoQualify($event, 'snap')">
+                <mat-radio-button [value]="true" color="primary">Yes</mat-radio-button>
+                <mat-radio-button [value]="false" color="warn">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <div *ngIf="questionnaireForm?.value.food_stamps">
+              <div class="bd-callout bd-callout-danger" *ngIf="employee?.data?.foodstamps_recipient_info?.hasErrors">
+                <h6>Please complete the SNAP Benefits Recipient Information.</h6>
+                <div>
+                  <ul>
+                    <li *ngIf="snapForm.controls['name'].errors && snapForm.controls['name'].errors['required']">
+                      Recipient Name is required.
+                    </li>
+                    <li *ngIf="snapForm.controls['name'].errors && snapForm.controls['name'].errors['minlength']">
+                      Recipient Name minimum length should be 2.
+                    </li>
+                    <li
+                      *ngIf="snapForm.controls['relationship'].errors && snapForm.controls['relationship'].errors['required']">
+                      Recipient Relationship is required.
+                    </li>
+                    <li
+                      *ngIf="snapForm.controls['relationship'].errors && snapForm.controls['relationship'].errors['minlength']">
+                      Recipient Relationship minimum length should be 2.
+                    </li>
+                    <li
+                      *ngIf="snapForm.controls['city_received'].errors && snapForm.controls['city_received'].errors['required']">
+                      Recipient City is required.
+                    </li>
+                    <li
+                      *ngIf="snapForm.controls['city_received'].errors && snapForm.controls['city_received'].errors['minlength']">
+                      Recipient City minimum length should be 2.
+                    </li>
+                    <li
+                      *ngIf="snapForm.controls['state_received'].errors && snapForm.controls['state_received'].errors['required']">
+                      Recipient State is required.
+                    </li>
+                    <li
+                      *ngIf="snapForm.controls['county_received'].errors && snapForm.controls['county_received'].errors['required']">
+                      Recipient County is required.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card card-top">
+                <div class="card-header">
+                  SNAP Benefits Recipient Details
+                </div>
+                <div class="card-body">
+                  <form [formGroup]="snapForm">
+                    <div class="row form-row-padding">
+                      <div class="col-md-6">
+                        <mat-form-field class="input-full-width">
+                          <mat-label>Recepient Name</mat-label>
+                          <input matInput formControlName="name" (keydown)="alphaOnly($event)"
+                            (paste)="alphaOnly($event)">
+                        </mat-form-field>
+                        <div
+                          *ngIf="(snapForm.controls['name'].dirty || snapForm.controls['name'].touched) && snapForm.controls['name'].errors">
+                          <mat-error *ngIf="snapForm.controls['name'].errors['required']">
+                            Recepient Name is required.
+                          </mat-error>
+                          <mat-error *ngIf="snapForm.controls['name'].errors['minlength']">
+                            Recepient Name minimum length should be 2.
+                          </mat-error>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <mat-form-field class="input-full-width">
+                          <mat-label>Recepient Relationship</mat-label>
+                          <input matInput formControlName="relationship">
+                        </mat-form-field>
+                        <div
+                          *ngIf="(snapForm.controls['relationship'].dirty || snapForm.controls['relationship'].touched) && snapForm.controls['relationship'].errors">
+                          <mat-error *ngIf="snapForm.controls['relationship'].errors['required']">
+                            Recepient relationship is required.
+                          </mat-error>
+                          <mat-error *ngIf="snapForm.controls['relationship'].errors['minlength']">
+                            Recepient relationship minimum length should be 2.
+                          </mat-error>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row form-row-padding">
+                      <div class="col-md-4">
+                        <mat-form-field class="input-full-width">
+                          <mat-label>City</mat-label>
+                          <input matInput formControlName="city_received">
+                        </mat-form-field>
+                        <div
+                          *ngIf="(snapForm.controls['city_received'].dirty || snapForm.controls['city_received'].touched) && snapForm.controls['city_received'].errors">
+                          <mat-error *ngIf="snapForm.controls['city_received'].errors['required']">
+                            Recepient city is required.
+                          </mat-error>
+                          <mat-error *ngIf="snapForm.controls['city_received'].errors['minlength']">
+                            Recepient city minimum length should be 2.
+                          </mat-error>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field class="input-full-width">
+                          <mat-label>State</mat-label>
+                          <mat-select formControlName="state_received"
+                            (selectionChange)="foodStampsSelectedState($event.value)">
+                            <mat-option *ngFor="let state of states" [value]="state">
+                              {{state.name}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                        <div
+                          *ngIf="(snapForm.controls['state_received'].dirty || snapForm.controls['state_received'].touched) && snapForm.controls['state_received'].errors">
+                          <mat-error *ngIf="snapForm.controls['state_received'].errors['required']">
+                            Recepient state is required.
+                          </mat-error>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field class="input-full-width">
+                          <mat-label>County</mat-label>
+                          <mat-select formControlName="county_received">
+                            <mat-option *ngFor="let county of foodStampsCounties" [value]="county">
+                              {{county.name}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                        <div
+                          *ngIf="(snapForm.controls['county_received'].dirty || snapForm.controls['county_received'].touched) && snapForm.controls['county_received'].errors">
+                          <mat-error *ngIf="snapForm.controls['county_received'].errors['required']">
+                            Recepient county is required.
+                          </mat-error>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr />
+  
+          <div class="row">
+            <div class="col-9">
+              <mat-label>Have you received Supplemental Security Income (SSI) at any time within the past 3 months? *
+              </mat-label>
+            </div>
+            <div class="col-3">
+              <mat-radio-group formControlName="ssi" class="radio">
+                <mat-radio-button [value]="true" color="primary">Yes</mat-radio-button>
+                <mat-radio-button [value]="false" color="warn">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+          <hr />
+  
+          <div class="row">
+            <div class="col-9">
+              <mat-label>Have you received any type of vocational rehabilitation services within the past two years? *
+              </mat-label>
+            </div>
+            <div class="col-3">
+              <mat-radio-group formControlName="voc_rehab" class="radio">
+                <mat-radio-button [value]="true" color="primary">Yes</mat-radio-button>
+                <mat-radio-button [value]="false" color="warn">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <div *ngIf="questionnaireForm.value.voc_rehab">
+              <div class="bd-callout bd-callout-danger" *ngIf="employee?.data?.voc_rehab_info?.hasErrors">
+                <h6>Please complete the Vocational Rehab Services Information.</h6>
+                <div>
+                  <ul>
+                    <li
+                      *ngIf="voacationalRehabilitationForm.controls['is_agency'].errors && voacationalRehabilitationForm.controls['is_agency'].errors['required']">
+                      Vocational rehabilitation agency is required.
+                    </li>
+                    <li
+                      *ngIf="voacationalRehabilitationForm.controls['dept_va'].errors && voacationalRehabilitationForm.controls['dept_va'].errors['required']">
+                      Department of veterans affairs is required.
+                    </li>
+                    <li
+                      *ngIf="voacationalRehabilitationForm.controls['ttw'].errors && voacationalRehabilitationForm.controls['ttw'].errors['required']">
+                      Employment network is required.
+                    </li>
+                    <li
+                      *ngIf="!this.voacationalRehabilitationForm?.get('is_agency')?.value && !this.voacationalRehabilitationForm?.get('dept_va')?.value && !this.voacationalRehabilitationForm?.get('ttw')?.value">
+                      Vocational Rehab Form must contain one YES Button
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card card-top">
+                <div class="card-header">
+                  Vocational Rehab Services
+                </div>
+                <div class="card-body">
+                  <form [formGroup]="voacationalRehabilitationForm">
+                    <div class="row form-row-padding card-content">
+                      <div class="col-md-9">
+                        <mat-label>Received vocational rehabilitation services from a vocational rehabilitation agency? *
+                        </mat-label>
+                      </div>
+                      <div class="col-md-3">mat
+                        <mat-radio-group formControlName="is_agency" class="radio">
+                          <mat-radio-button [value]="true" color="primary"
+                            (change)="receivedServicesFromVocationalRehabilitationAgencyUpdate($event)">Yes
+                          </mat-radio-button>
+                          <mat-radio-button [value]="false" color="warn"
+                            (change)="receivedServicesFromVocationalRehabilitationAgencyUpdate($event)">No
+                          </mat-radio-button>
+                        </mat-radio-group>
+                      </div>
+                    </div>
+                    <div class="row form-row-padding card-content">
+                      <div class="col-md-9">
+                        <mat-label>Received vocational rehabilitation services from department of veterans affairs? *
+                        </mat-label>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-radio-group formControlName="dept_va" class="radio">
+                          <mat-radio-button [value]="true" color="primary"
+                            (change)="receivedServicesFromVeteransAffairsUpdate($event)">
+                            Yes
+                          </mat-radio-button>
+                          <mat-radio-button [value]="false" color="warn"
+                            (change)="receivedServicesFromVeteransAffairsUpdate($event)">
+                            No
+                          </mat-radio-button>
+                        </mat-radio-group>
+                      </div>
+                    </div>
+                    <div class="row form-row-padding card-content">
+                      <div class="col-md-9">
+                        <mat-label>Received vocational rehabilitation services from an Employment Network (Ticket to Work
+                          Program)? *</mat-label>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-radio-group formControlName="ttw" class="radio">
+                          <mat-radio-button [value]="true" color="primary"
+                            (change)="receivedServicesFromEmployeeNTWUpdate($event)">Yes
+                          </mat-radio-button>
+                          <mat-radio-button [value]="false" color="warn"
+                            (change)="receivedServicesFromEmployeeNTWUpdate($event)">No
+                          </mat-radio-button>
+                        </mat-radio-group>
+                      </div>
+                    </div>
+                    <div class="row form-row-padding">
+                      <div class="col-md-6">
+                        <mat-form-field class="input-full-width">
+                          <mat-label>Agency Name</mat-label>
+                          <input matInput formControlName="agency_name" (keydown)="alphaOnly($event)"
+                            (paste)="alphaOnly($event)">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-6">
+                        <mat-form-field class="input-full-width">
+                          <mat-label>Agency Phone Number</mat-label>
+                          <input matInput formControlName="phone" maxlength="12"
+                            (keydown)="digitsOnly($event)" (paste)="digitsOnly($event)">
+                        </mat-form-field>
+                        <div
+                          *ngIf="voacationalRehabilitationForm.controls['phone'].errors && voacationalRehabilitationForm.controls['phone'].errors['minlength']">
+                          <mat-error>
+                            Agency Phone Number is invalid.
+                          </mat-error>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row form-row-padding">
+                      <div class="col-md-6">
+                        <mat-form-field class="input-full-width">
+                          <mat-label>Agency Address</mat-label>
+                          <input matInput formControlName="address_line_1">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-6">
+                        <mat-form-field class="input-full-width">
+                          <mat-label>Address2</mat-label>
+                          <input matInput formControlName="address_line_2">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row form-row-padding">
+                      <div class="col-md-3">
+                        <mat-form-field class="input-full-width">
+                          <mat-label>Zip</mat-label>
+                          <input matInput formControlName="zip" maxlength="5" (keydown)="digitsOnly($event)"
+                            (paste)="digitsOnly($event)">
+                        </mat-form-field>
+                        <div
+                          *ngIf="voacationalRehabilitationForm.controls['zip'].errors && voacationalRehabilitationForm.controls['zip'].errors['minlength']">
+                          <mat-error>
+                            Agency Zip minimum length should be 5.
+                          </mat-error>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-form-field class="input-full-width">
+                          <mat-label>City</mat-label>
+                          <input matInput formControlName="city">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-form-field class="input-full-width">
+                          <mat-label>State</mat-label>
+                          <mat-select formControlName="state" (selectionChange)="vocSelectedState($event.value)">
+                            <mat-option *ngFor="let state of states" [value]="state">
+                              {{state.name}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-form-field class="input-full-width">
+                          <mat-label>County</mat-label>
+                          <mat-select formControlName="county">
+                            <mat-option *ngFor="let county of vocCounties" [value]="county">
+                              {{county.name}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr />
+  
+          <div class="row">
+            <div class="col-md-9">
+              <mat-label>Are you a Veteran of the U.S. Military? *</mat-label>
+            </div>
+            <div class="col-md-3">
+              <mat-radio-group formControlName="veteran" class="radio">
+                <mat-radio-button [value]="true" color="primary">Yes</mat-radio-button>
+                <mat-radio-button [value]="false" color="warn">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <div *ngIf="questionnaireForm.value.veteran">
+              <div class="bd-callout bd-callout-danger" *ngIf="employee?.data?.veteran_info?.hasErrors">
+                <h6> Please complete the Military Veteran Information.</h6>
+                <div>
+                  <ul>
+                    <li
+                      *ngIf="militaryVeteranDetailsForm.controls['disabled'].errors && militaryVeteranDetailsForm.controls['disabled'].errors['required']">
+                      Disabled service is required.
+                    </li>
+                    <li
+                      *ngIf="militaryVeteranDetailsForm.controls['service_start'].errors && militaryVeteranDetailsForm.controls['service_start'].errors['required']">
+                      Service Date From is required.
+                    </li>
+                    <li
+                      *ngIf="militaryVeteranDetailsForm.controls['service_start'].errors && militaryVeteranDetailsForm.controls['service_start'].errors['notADate']">
+                      Service Date From is not a date.
+                    </li>
+                    <li
+                      *ngIf="militaryVeteranDetailsForm.controls['service_start'].errors && militaryVeteranDetailsForm.controls['service_start'].errors['serviceDateError']">
+                      Service Date From cannot be greater than today's date.
+                    </li>
+                    <li
+                      *ngIf="militaryVeteranDetailsForm.controls['service_stop'].errors && militaryVeteranDetailsForm.controls['service_stop'].errors['required']">
+                      Service Date To is required.
+                    </li>
+                    <li
+                      *ngIf="militaryVeteranDetailsForm.controls['service_stop'].errors && militaryVeteranDetailsForm.controls['service_stop'].errors['notADate']">
+                      Service Date To is not a date.
+                    </li>
+                    <li
+                      *ngIf="militaryVeteranDetailsForm.errors && militaryVeteranDetailsForm.errors['serviceDateStopError']">
+                      Service Date To must be on or after Service Date From.
+                    </li>
+                    <li
+                      *ngIf="militaryVeteranDetailsForm.controls['branch'].errors && militaryVeteranDetailsForm.controls['branch'].errors['required']">
+                      Military Branch is required.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card card-top">
+                <div class="card-header">
+                  Military Veteran Details
+                </div>
+                <div class="card-body">
+                  <form [formGroup]="militaryVeteranDetailsForm">
+                    <div class="row form-row-padding">
+                      <div class="col-9">
+                        <mat-label>Are you Disabled due to service? *
+                        </mat-label>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-radio-group formControlName="disabled" class="radio">
+                          <mat-radio-button [value]="true" color="primary">Yes</mat-radio-button>
+                          <mat-radio-button [value]="false" color="warn">No</mat-radio-button>
+                        </mat-radio-group>
+                      </div>
+                    </div>
+                    <div class="row form-row-padding">
+                      <div class="col-md-3">
+                        <mat-form-field class="input-full-width">
+                          <mat-label>Service Date From</mat-label>
+                          <input matInput [matDatepicker]="picker1" [max]="today" formControlName="service_start"
+                            (keydown)="dateCheck($event)" (paste)="dateCheck($event)">
+                          <mat-hint>MM/DD/YYYY</mat-hint>
+                          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                          <mat-datepicker #picker1></mat-datepicker>
+                        </mat-form-field>
+                        <div
+                          *ngIf="(militaryVeteranDetailsForm.controls['service_start'].dirty || militaryVeteranDetailsForm.controls['service_start'].touched || militaryVeteranDetailsForm.controls['service_start'].value) && militaryVeteranDetailsForm.controls['service_start'].errors">
+                          <mat-error *ngIf="militaryVeteranDetailsForm.controls['service_start'].errors['required']">
+                            Service Date From is required.
+                          </mat-error>
+                          <mat-error *ngIf="militaryVeteranDetailsForm.controls['service_start'].errors['notADate']">
+                            Service Date From is not a date.
+                          </mat-error>
+                          <mat-error
+                            *ngIf="militaryVeteranDetailsForm.controls['service_start'].errors['serviceDateError']">
+                            Service Date From cannot be greater than today's date.
+                          </mat-error>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-form-field class="input-full-width">
+                          <mat-label>Service Date To</mat-label>
+                          <input matInput [matDatepicker]="picker2" formControlName="service_stop"
+                            (keydown)="dateCheck($event)" (paste)="dateCheck($event)">
+                          <mat-hint>MM/DD/YYYY</mat-hint>
+                          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                          <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                        <div
+                          *ngIf="(militaryVeteranDetailsForm.controls['service_stop'].dirty || militaryVeteranDetailsForm.controls['service_stop'].touched) && militaryVeteranDetailsForm.errors">
+                          <mat-error
+                            *ngIf="militaryVeteranDetailsForm.controls['service_stop'].errors && militaryVeteranDetailsForm.controls['service_stop'].errors['required']">
+                            Service Date To is required.
+                          </mat-error>
+                          <mat-error
+                            *ngIf="militaryVeteranDetailsForm.controls['service_stop'].errors && militaryVeteranDetailsForm.controls['service_stop'].errors['notADate']">
+                            Service Date To is not a date.
+                          </mat-error>
+                          <mat-error *ngIf="militaryVeteranDetailsForm.errors['serviceDateStopError']">
+                            Service Date To must be on or after Service Date From.
+                          </mat-error>
+                        </div>
+                      </div>
+                      <div class="offset-md-3 col-md-1" *ngIf="role === 'processor'">
+                        <mat-checkbox class="mat-checkbox" color="primary" (change)="setVeteranDefaultDates($event)">
+                          Dates not provided
+                        </mat-checkbox>
+                      </div>
+                    </div>
+                    <div class="row form-row-padding">
+                      <div class="col-md-6">
+                        <mat-form-field class="input-full-width">
+                          <mat-label>Branch</mat-label>
+                          <mat-select formControlName="branch">
+                            <mat-option *ngFor="let branch of branches" [value]="branch">
+                              {{branch}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div *ngIf="(militaryVeteranDetailsForm.controls['branch'].dirty || militaryVeteranDetailsForm.controls['branch'].touched) &&
+                      militaryVeteranDetailsForm.controls['branch'].errors">
+                        <mat-error *ngIf="militaryVeteranDetailsForm.controls['branch'].errors['required']">
+                          Military Branch is required.
+                        </mat-error>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr />
+  
+          <div class="row">
+            <div class="col-9">
+              <mat-label>Have you been unemployed at any time during the last 12 months? *
+              </mat-label>
+            </div>
+            <div class="col-3">
+              <mat-radio-group formControlName="unemployed" class="radio">
+                <mat-radio-button [value]="true" color="primary">Yes</mat-radio-button>
+                <mat-radio-button [value]="false" color="warn">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <div *ngIf="questionnaireForm.value.unemployed === true">
+              <div class="bd-callout bd-callout-danger" *ngIf="employee?.data?.unemployment_info?.hasErrors">
+                <h6>Please complete the Unemployment Information.</h6>
+                <div>
+                  <ul>
+                    <li
+                      *ngIf="unemploymentDetailsForm.controls['unemployment_start_date'].errors && unemploymentDetailsForm.controls['unemployment_start_date'].errors['required']">
+                      Unemployed From is required.
+                    </li>
+                    <li
+                      *ngIf="unemploymentDetailsForm.controls['unemployment_stop_date'].errors && unemploymentDetailsForm.controls['unemployment_stop_date'].errors['required']">
+                      Unemployed To is required.
+                    </li>
+                    <li
+                      *ngIf="unemploymentDetailsForm.controls['unemployment_start_date'].errors && unemploymentDetailsForm.controls['unemployment_start_date'].errors['notADate']">
+                      Unemployed From is not a date.
+                    </li>
+                    <li
+                      *ngIf="unemploymentDetailsForm.controls['unemployment_stop_date'].errors && unemploymentDetailsForm.controls['unemployment_stop_date'].errors['notADate']">
+                      Unemployed To is not a date.
+                    </li>
+                    <li
+                      *ngIf="unemploymentDetailsForm.controls['compensated'].errors && unemploymentDetailsForm.controls['compensated'].errors['required']">
+                      Unemployment compensation is required.
+                    </li>
+                    <li *ngIf="unemploymentDetailsForm.errors && unemploymentDetailsForm.errors['unemploymentToError']">
+                      Unemployed To Date must be on or after Unemployed From Date.
+                    </li>
+                    <li *ngIf="unemploymentDetailsForm.errors && unemploymentDetailsForm.errors['unemploymentDateError']">
+                      Unemployed To Date cannot be greater than today's date.
+                    </li>
+                    <li
+                      *ngIf="unemploymentDetailsForm.controls['compensation_start_date'].errors && unemploymentDetailsForm.controls['compensation_start_date'].errors['required']">
+                      Compensation From is required.
+                    </li>
+                    <li
+                      *ngIf="unemploymentDetailsForm.controls['compensation_start_date'].errors && unemploymentDetailsForm.controls['compensation_start_date'].errors['notADate']">
+                      Compensation From is not a date.
+                    </li>
+                    <li *ngIf="unemploymentDetailsForm.errors && unemploymentDetailsForm.errors['compensationFromError']">
+                      Compensated From Date must be on or before Unemployed To Date.
+                    </li>
+                    <li
+                      *ngIf="unemploymentDetailsForm.controls['compensation_stop_date'].errors && unemploymentDetailsForm.controls['compensation_stop_date'].errors['required']">
+                      Compensation To is required.
+                    </li>
+                    <li
+                      *ngIf="unemploymentDetailsForm.controls['compensation_stop_date'].errors && unemploymentDetailsForm.controls['compensation_stop_date'].errors['notADate']">
+                      Compensation To is not a date.
+                    </li>
+                    <li *ngIf="unemploymentDetailsForm.errors && unemploymentDetailsForm.errors['compensationStopError']">
+                      Compensated To Date must be on or before Unemployed To Date.
+                    </li>
+                    <li *ngIf="unemploymentDetailsForm.errors && unemploymentDetailsForm.errors['compensationToError']">
+                      Compensated To Date must be on or after Compensated From Date.
+                    </li>
+                    <li
+                      *ngIf="unemploymentDetailsForm.errors && unemploymentDetailsForm.errors['compensationFromGreaterUnemploymentFrom']">
+                      Compensated From Date must be on or after Unemployed From Date.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card card-top">
+                <div class="card-header">
+                  Unemployment Details
+                </div>
+                <div class="card-body">
+                  <form [formGroup]="unemploymentDetailsForm">
+                    <div class="row form-row-padding">
+                      <div class="col-md-3">
+                        <mat-form-field class="input-full-width">
+                          <mat-label>Unemployed From</mat-label>
+                          <input matInput [matDatepicker]="picker3" [max]="today"
+                            formControlName="unemployment_start_date" (keydown)="dateCheck($event)"
+                            (paste)="dateCheck($event)">
+                          <mat-hint>MM/DD/YYYY</mat-hint>
+                          <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                          <mat-datepicker #picker3></mat-datepicker>
+                        </mat-form-field>
+                        <div
+                          *ngIf="(unemploymentDetailsForm.controls['unemployment_start_date'].dirty || unemploymentDetailsForm.controls['unemployment_start_date'].touched ||  unemploymentDetailsForm.controls['unemployment_start_date'].value) && unemploymentDetailsForm.controls['unemployment_start_date'].errors">
+                          <mat-error
+                            *ngIf="unemploymentDetailsForm.controls['unemployment_start_date'].errors['required']">
+                            Unemployed From is required.
+                          </mat-error>
+                          <mat-error
+                            *ngIf="unemploymentDetailsForm.controls['unemployment_start_date'].errors['notADate']">
+                            Unemployed From is not a date.
+                          </mat-error>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-form-field class="input-full-width">
+                          <mat-label>Unemployed To</mat-label>
+                          <input matInput [matDatepicker]="picker4" [max]="today" formControlName="unemployment_stop_date"
+                            (keydown)="dateCheck($event)" (paste)="dateCheck($event)">
+                          <mat-hint>MM/DD/YYYY</mat-hint>
+                          <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                          <mat-datepicker #picker4></mat-datepicker>
+                        </mat-form-field>
+                        <div
+                          *ngIf="(unemploymentDetailsForm.controls['unemployment_stop_date'].dirty || unemploymentDetailsForm.controls['unemployment_stop_date'].touched || unemploymentDetailsForm.controls['unemployment_stop_date'].value) && unemploymentDetailsForm.errors">
+                          <mat-error
+                            *ngIf="unemploymentDetailsForm.controls['unemployment_stop_date'].errors && unemploymentDetailsForm.controls['unemployment_stop_date'].errors['required']">
+                            Unemployed To is required.
+                          </mat-error>
+                          <mat-error
+                            *ngIf="unemploymentDetailsForm.controls['unemployment_stop_date'].errors && unemploymentDetailsForm.controls['unemployment_stop_date'].errors['notADate']">
+                            Unemployed To is not a date.
+                          </mat-error>
+                          <mat-error *ngIf="unemploymentDetailsForm.errors['unemploymentToError']">
+                            Unemployed To Date must be on or after Unemployed From Date.
+                          </mat-error>
+                        </div>
+                        <div
+                          *ngIf="unemploymentDetailsForm.controls['unemployment_stop_date'].value && unemploymentDetailsForm.errors">
+                          <mat-error *ngIf="unemploymentDetailsForm.errors['unemploymentDateError']">
+                            Unemployed To Date cannot be greater than today's date.
+                          </mat-error>
+                        </div>
+                      </div>
+                      <div class="offset-md-2 col-md-1" *ngIf="role === 'processor'">
+                        <mat-checkbox class="mat-checkbox" color="primary" [disabled]="useAsUnemployment"
+                          [checked]="defaultUnemploymentDateValue" (change)="setUnemploymentDefaultDates($event)">
+                          Dates not provided
+                        </mat-checkbox>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-9">
+                        <mat-label>Did you receive unemployment compensation at any point during your unemployment? *
+                        </mat-label>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-radio-group formControlName="compensated" class="radio"
+                          (change)="unemploymentCompensationChange($event)">
+                          <mat-radio-button [value]="true" color="primary">Yes</mat-radio-button>
+                          <mat-radio-button [value]="false" color="warn">No</mat-radio-button>
+                        </mat-radio-group>
+                      </div>
+                    </div>
+                    <div *ngIf="unemploymentDetailsForm.value.compensated">
+                      <div class="row form-row-padding">
+                        <div class="offset-md-1 col-md-3">
+                          <mat-form-field class="input-full-width">
+                            <mat-label>Compensation From</mat-label>
+                            <input matInput [matDatepicker]="picker1" formControlName="compensation_start_date"
+                              (keydown)="dateCheck($event)" (paste)="dateCheck($event)">
+                            <mat-hint>MM/DD/YYYY</mat-hint>
+                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                            <mat-datepicker #picker1></mat-datepicker>
+                          </mat-form-field>
+                          <div
+                            *ngIf="(unemploymentDetailsForm.controls['compensation_start_date'].dirty || unemploymentDetailsForm.controls['compensation_start_date'].touched || unemploymentDetailsForm.controls['compensation_start_date'].value) && unemploymentDetailsForm.errors">
+                            <mat-error
+                              *ngIf="unemploymentDetailsForm.controls['compensation_start_date'].errors && unemploymentDetailsForm.controls['compensation_start_date'].errors['required']">
+                              Compensation From is required.
+                            </mat-error>
+                            <mat-error
+                              *ngIf="unemploymentDetailsForm.controls['compensation_start_date'].errors && unemploymentDetailsForm.controls['compensation_start_date'].errors['not']">
+                              Compensation From is not a date.
+                            </mat-error>
+                            <mat-error *ngIf="unemploymentDetailsForm.errors['compensationFromError']">
+                              Compensated From Date must be on or before Unemployed To Date.
+                            </mat-error>
+                            <mat-error *ngIf="unemploymentDetailsForm.errors['compensationFromGreaterUnemploymentFrom']">
+                              Compensated From Date must be on or after Unemployed From Date.
+                            </mat-error>
+                          </div>
+                        </div>
+                        <div class="offset-md-2 col-md-3">
+                          <mat-form-field class="input-full-width">
+                            <mat-label>Compensation To</mat-label>
+                            <input matInput [matDatepicker]="picker2" formControlName="compensation_stop_date"
+                              (keydown)="dateCheck($event)" (paste)="dateCheck($event)">
+                            <mat-hint>MM/DD/YYYY</mat-hint>
+                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                          </mat-form-field>
+                          <div
+                            *ngIf="(unemploymentDetailsForm.controls['compensation_stop_date'].dirty || unemploymentDetailsForm.controls['compensation_stop_date'].touched || unemploymentDetailsForm.controls['compensation_stop_date'].value) && unemploymentDetailsForm.errors">
+                            <mat-error
+                              *ngIf="unemploymentDetailsForm.controls['compensation_stop_date'].errors && unemploymentDetailsForm.controls['compensation_stop_date'].errors['required']">
+                              Compensation To is required.
+                            </mat-error>
+                            <mat-error
+                              *ngIf="unemploymentDetailsForm.controls['compensation_stop_date'].errors && unemploymentDetailsForm.controls['compensation_stop_date'].errors['notADate']">
+                              Compensation To is not a date.
+                            </mat-error>
+                            <mat-error *ngIf="unemploymentDetailsForm.errors['compensationStopError']">
+                              Compensated To Date must be on or before Unemployed To Date.
+                            </mat-error>
+                            <mat-error *ngIf="unemploymentDetailsForm.errors['compensationToError']">
+                              Compensated To Date must be on or after Compensated From Date.
+                            </mat-error>
+                          </div>
+                        </div>
+                        <div class="col-md-1" *ngIf="role === 'processor'">
+                          <mat-checkbox class="mat-checkbox" color="primary"
+                            (change)="setCompensationDefaultDates($event)" [disabled]="useAsUnemployment"
+                            *ngIf="showDefaultCompensation">
+                            Dates not provided
+                          </mat-checkbox>
+                          <div class="col-md-1" *ngIf="role === 'processor'">
+                            <mat-checkbox class="mat-checkbox" color="primary" (change)="useAsUnemploymentDates($event)"
+                              [disabled]="!unemploymentDetailsForm.value.compensation_start_date || !unemploymentDetailsForm.value.compensation_stop_date || defaultCompensationDateValue">
+                              Use as unemployment
+                            </mat-checkbox>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row form-row-padding col-md-6">
+                        <mat-form-field class="input-full-width">
+                          <mat-label>State</mat-label>
+                          <mat-select formControlName="unemployment_compensation_state">
+                            <mat-option *ngFor="let state of states" [value]="state.code">
+                              {{state.name}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr />
+  
+          <div class="row">
+            <div class="col-9">
+              <mat-label>Convicted of felony or released from prison in last 12 months? *</mat-label>
+            </div>
+            <div class="col-3">
+              <mat-radio-group formControlName="felon" class="radio">
+                <mat-radio-button [value]="true" color="primary">Yes</mat-radio-button>
+                <mat-radio-button [value]="false" color="warn">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <div *ngIf="questionnaireForm.value.felon">
+              <div class="bd-callout bd-callout-danger" *ngIf="employee?.data?.felon_info?.hasErrors">
+                <h6>Please complete the Felon Information</h6>
+                <div>
+                  <ul>
+                    <li
+                      *ngIf="felonyDetailsForm.controls['conviction_date'].errors && felonyDetailsForm.controls['conviction_date'].errors['required']">
+                      Conviction Date is required.
+                    </li>
+                    <li
+                      *ngIf="felonyDetailsForm.controls['conviction_date'].errors && felonyDetailsForm.controls['conviction_date'].errors['notADate']">
+                      Conviction Date is not a date.
+                    </li>
+                    <li
+                      *ngIf="felonyDetailsForm.controls['release_date'].errors && felonyDetailsForm.controls['release_date'].errors['notADate']">
+                      Date of Release is not a date.
+                    </li>
+                    <li *ngIf="felonyDetailsForm.errors && felonyDetailsForm.errors['releaseDateError']">
+                      Date of Release must be on or after Conviction Date.
+                    </li>
+                    <li
+                      *ngIf="felonyDetailsForm.controls['is_federal_conviction'].errors && felonyDetailsForm.controls['is_federal_conviction'].errors['required']">
+                      Federal Conviction is required.
+                    </li>
+                    <li
+                      *ngIf="felonyDetailsForm.controls['is_state_conviction'].errors && felonyDetailsForm.controls['is_state_conviction'].errors['required']">
+                      State Conviction is required.
+                    </li>
+                    <li
+                      *ngIf="felonyDetailsForm.controls['felony_state'].errors && felonyDetailsForm.controls['felony_state'].errors['required']">
+                      Felon State is required.
+                    </li>
+                    <li
+                      *ngIf="felonyDetailsForm.controls['felony_county'].errors && felonyDetailsForm.controls['felony_county'].errors['required']">
+                      Felon County is required.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card card-top">
+                <div class="card-header">
+                  Felon Details
+                </div>
+                <div class="card-body">
+                  <form [formGroup]="felonyDetailsForm">
+                    <div class="row form-row-padding">
+                      <div class="col-md-3">
+                        <mat-form-field class="input-full-width">
+                          <mat-label>Conviction Date</mat-label>
+                          <input matInput [matDatepicker]="picker5" [max]="today" formControlName="conviction_date"
+                            (keydown)="dateCheck($event)" (paste)="dateCheck($event)">
+                          <mat-hint>MM/DD/YYYY</mat-hint>
+                          <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+                          <mat-datepicker #picker5></mat-datepicker>
+                        </mat-form-field>
+                        <div
+                          *ngIf="(felonyDetailsForm.controls['conviction_date'].dirty || felonyDetailsForm.controls['conviction_date'].touched) && felonyDetailsForm.controls['conviction_date'].errors">
+                          <mat-error *ngIf="felonyDetailsForm.controls['conviction_date'].errors['required']">
+                            Conviction Date is required.
+                          </mat-error>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-form-field class="input-full-width">
+                          <mat-label>Date of Release</mat-label>
+                          <input matInput [matDatepicker]="picker6" formControlName="release_date"
+                            (keydown)="dateCheck($event)" (paste)="dateCheck($event)">
+                          <mat-hint>MM/DD/YYYY</mat-hint>
+                          <mat-datepicker-toggle matSuffix [for]="picker6"></mat-datepicker-toggle>
+                          <mat-datepicker #picker6></mat-datepicker>
+                        </mat-form-field>
+                        <div
+                          *ngIf="(felonyDetailsForm.controls['release_date'].dirty || felonyDetailsForm.controls['release_date'].touched || felonyDetailsForm.controls['release_date'].value) && felonyDetailsForm.errors">
+                          <mat-error *ngIf="felonyDetailsForm.errors['releaseDateError']">
+                            Date of Release must be on or after Conviction Date.
+                          </mat-error>
+                        </div>
+                      </div>
+                      <div class="offset-md-3 col-md-1" *ngIf="role === 'processor'">
+                        <mat-checkbox class="mat-checkbox" color="primary" (change)="seFelonyDefaultDates($event)">
+                          Dates not provided
+                        </mat-checkbox>
+                      </div>
+                    </div>
+                    <div class="row form-row-padding card-content">
+                      <div class="col-9">
+                        <mat-label>Is this a Federal Conviction? *
+                        </mat-label>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-radio-group formControlName="is_federal_conviction" class="radio">
+                          <mat-radio-button [value]="true" color="primary" (change)="federalConvictionUpdate($event)">Yes
+                          </mat-radio-button>
+                          <mat-radio-button [value]="false" color="warn" (change)="federalConvictionUpdate($event)">No
+                          </mat-radio-button>
+                        </mat-radio-group>
+                      </div>
+                    </div>
+                    <div class="row form-row-padding card-content">
+                      <div class="col-9">
+                        <mat-label>Is this a State Conviction? *
+                        </mat-label>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-radio-group formControlName="is_state_conviction" class="radio"
+                          (change)="stateConvictionChange($event)">
+                          <mat-radio-button [value]="true" color="primary" (change)="stateConvictionUpdate($event)">Yes
+                          </mat-radio-button>
+                          <mat-radio-button [value]="false" color="warn" (change)="stateConvictionUpdate($event)">No
+                          </mat-radio-button>
+                        </mat-radio-group>
+                      </div>
+                    </div>
+                    <div class="row form-row-padding">
+                      <div class="col-md-6">
+                        <mat-form-field class="input-full-width">
+                          <mat-label>Parole Officer Name</mat-label>
+                          <input matInput formControlName="parole_officer_name" (keydown)="alphaOnly($event)"
+                            (paste)="alphaOnly($event)">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-6">
+                        <mat-form-field class="input-full-width">
+                          <mat-label>Parole Officer Phone Number</mat-label>
+                          <input matInput formControlName="parole_officer_phone" maxlength="12">
+                        </mat-form-field>
+                        <div
+                          *ngIf="felonyDetailsForm.controls['parole_officer_phone'].errors && felonyDetailsForm.controls['parole_officer_phone'].errors['minlength']">
+                          <mat-error>
+                            Parole Officer Phone Number is invalid.
+                          </mat-error>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row form-row-padding" *ngIf="felonyDetailsForm.value.is_state_conviction">
+                      <div class="col-md-6">
+                        <mat-form-field class="input-full-width">
+                          <mat-label>State</mat-label>
+                          <mat-select formControlName="felony_state"
+                            (selectionChange)="felonySelectedState($event.value)">
+                            <mat-option *ngFor="let state of states" [value]="state">
+                              {{state.name}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                        <div
+                          *ngIf="(felonyDetailsForm.controls['felony_state'].dirty || felonyDetailsForm.controls['felony_state'].touched) && felonyDetailsForm.controls['felony_state'].errors">
+                          <mat-error *ngIf="felonyDetailsForm.controls['felony_state'].errors['required']">
+                            Felon State is required.
+                          </mat-error>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <mat-form-field class="input-full-width">
+                          <mat-label>County</mat-label>
+                          <mat-select formControlName="felony_county">
+                            <mat-option *ngFor="let county of felonyCounties" [value]="county">
+                              {{county.name}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                        <div
+                          *ngIf="(felonyDetailsForm.controls['felony_county'].dirty || felonyDetailsForm.controls['felony_county'].touched) && felonyDetailsForm.controls['felony_county'].errors">
+                          <mat-error *ngIf="felonyDetailsForm.controls['felony_county'].errors['required']">
+                            Felon County is required.
+                          </mat-error>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr />
+  
+          <div class="row">
+            <div class="col-9">
+              <mat-label>Are you or your spouse a member of a Native American Tribe? *</mat-label>
+            </div>
+            <div class="col-3">
+              <mat-radio-group formControlName="cdib" class="radio">
+                <mat-radio-button [value]="true" color="primary">Yes</mat-radio-button>
+                <mat-radio-button [value]="false" color="warn">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+          <hr />
+  
+          <div class="row">
+            <div class="col-9">
+              <mat-label>Have you received a conditional certification from the state workforce agency (SWA) or a
+                participating local agency for the work opportunity credit? *</mat-label>
+              <span *ngIf="sub_role === 'combo'"><br />(This refers to the first question on the <a
+                  href="https://s3.amazonaws.com/retrotax-public-forms/pdf/8850.pdf" target="_blank">IRS 8850</a>)</span>
+            </div>
+            <div class="col-3">
+              <mat-radio-group formControlName="conditional_cert" class="radio">
+                <mat-radio-button [value]="true" color="primary">Yes</mat-radio-button>
+                <mat-radio-button [value]="false" color="warn">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+          <hr />
+  
+          
+          <div *ngIf="employee.data.employee_info.state?.code === 'CA'">
+            <div class="row">
+              <div class="col-9">
+                <mat-label>Are you the child of foster parents? *</mat-label>
+              </div>
+              <div class="col-3">
+                <mat-radio-group formControlName="ca_foster" class="radio">
+                  <mat-radio-button [value]="true" color="primary">Yes</mat-radio-button>
+                  <mat-radio-button [value]="false" color="warn">No</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
+            <hr />
+            <div class="row">
+              <div class="col-9">
+                <mat-label>Do you receive CalWorks? *</mat-label>
+              </div>
+              <div class="col-3">
+                <mat-radio-group formControlName="ca_cal_works" class="radio">
+                  <mat-radio-button [value]="true" color="primary">Yes</mat-radio-button>
+                  <mat-radio-button [value]="false" color="warn">No</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
+            <hr />
+            <div class="row">
+              <div class="col-9">
+                <mat-label>Do you receive the Workforce Investment Act? *</mat-label>
+              </div>
+              <div class="col-3">
+                <mat-radio-group formControlName="ca_wia" class="radio">
+                  <mat-radio-button [value]="true" color="primary">Yes</mat-radio-button>
+                  <mat-radio-button [value]="false" color="warn">No</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
+            <hr />
+            <div class="row">
+              <div class="col-9">
+                <mat-label>Are you a migrant or seasonal farm worker? *</mat-label>
+              </div>
+              <div class="col-3">
+                <mat-radio-group formControlName="ca_farmer" class="radio">
+                  <mat-radio-button [value]="true" color="primary">Yes</mat-radio-button>
+                  <mat-radio-button [value]="false" color="warn">No</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
+            <hr />
+            <div class="row">
+              <div class="col-9">
+                <mat-label>Have you ever been convicted of a misdemeanor? *</mat-label>
+              </div>
+              <div class="col-3">
+                <mat-radio-group formControlName="ca_misdemeanor" class="radio">
+                  <mat-radio-button [value]="true" color="primary">Yes</mat-radio-button>
+                  <mat-radio-button [value]="false" color="warn">No</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
+            <hr />
+          </div>
+          
+          <div class="row" *ngIf="employee.data.employee_info.state?.code === 'SC'">
+            <div class="col-9">
+              <mat-label>Do you receive Family Independence Benefits? *</mat-label>
+            </div>
+            <div class="col-3">
+              <mat-radio-group formControlName="sc_fib" class="radio">
+                <mat-radio-button [value]="true" color="primary">Yes</mat-radio-button>
+                <mat-radio-button [value]="false" color="warn">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <hr />
+          </div>
+            
+         
+  
+  
+  
+  
+        </form>
+  
+  
+         <!-- WOTC FORMS ------------------------------------------------------ -->
+      </mat-card-content>
+    </mat-card>
+  </div>
+  

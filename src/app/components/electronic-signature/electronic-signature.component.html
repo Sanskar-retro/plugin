@@ -1,0 +1,41 @@
+<div [ngClass]="empRedirected ? 'container-md header-space' : 'job-form'">
+  <mat-card class="card-padding" [ngClass]="'r-box-shadow'">
+    <mat-card-content>
+      <hr />
+      <div class="bd-callout bd-callout-danger"
+        *ngIf="(employee?.data?.e_signatures?.hm_signature?.hasErrors && !eSignForm.get('eSignature')?.value) || authorizationError || PluginFormError">
+        <h6>
+          {{empRedirected ? 'Please complete the Authorization Confirmation Information.' : 'Electronic Signature is required' }}
+        </h6>
+        <div>
+          <ul>
+            <li *ngIf="!eSignForm.get('eSignature')?.value">
+              {{empRedirected ? 'E-Sign button must be select.' : 'esign must be checked' }}
+            </li>
+          </ul>
+        </div>
+      </div>
+      <form [formGroup]="eSignForm">
+        <div class="row form-row-padding">
+          <div class="row">
+            <div class="col-md-9">
+              <mat-label> Under penalties of perjury, I declare that I gave the above information to the employer on or
+                before the day I was offered a job, and it is, to the best of my knowledge, true, correct, and complete.
+                I hereby authorize any agency, organization, Social Security Administration, Department of Veterans
+                Affairs, or individuals to supply such verification of information as may be needed to determine tax
+                credit eligibility to my employer, employer representative (Associated Consultants, Inc. dba RetroTax),
+                or the Department of Labor. I also understand that my responses are used to complete the IRS Form 8850
+                and any other documents pertaining to the WOTC Program.</mat-label>
+            </div>
+            <div class="col-md-2">
+              <mat-checkbox formControlName="eSignature" class="mat-checkbox" color="primary">
+                E-Signature
+              </mat-checkbox>
+            </div>
+          </div>
+        </div>
+      </form>
+      <hr />
+    </mat-card-content>
+  </mat-card>
+</div>

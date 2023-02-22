@@ -1,0 +1,272 @@
+<mat-card class="card-padding" ngClass="r-box-shadow">
+  <mat-card-title>
+    <!-- {{employeeForm.controls['first_name'].value+" "+employeeForm.controls['last_name'].value}} -->
+  </mat-card-title>
+  <mat-card-content>
+    <div class="bd-callout bd-callout-danger" *ngIf="employee?.data?.employee_info?.hasErrors">
+      <h6>Please complete the Employee Basic Information.</h6>
+      <ul>
+        <li
+          *ngIf="employeeForm.controls['first_name'].errors && employeeForm.controls['first_name'].errors['required']">
+          First Name is required.
+        </li>
+        <li *ngIf="employeeForm.controls['last_name'].errors && employeeForm.controls['last_name'].errors['required']">
+          Last Name is required.
+        </li>
+        <li
+          *ngIf="!currentUser.is_companies_disabled && employeeForm.controls['company'].errors && employeeForm.controls['company'].errors['required']">
+          Company is required.
+        </li>
+        <li *ngIf="employeeForm.controls['city'].errors && employeeForm.controls['city'].errors['required']">
+          City is required.
+        </li>
+        <li *ngIf="employeeForm.controls['zip'].errors && employeeForm.controls['zip'].errors['required']">
+          Zip is required (digits only).
+        </li>
+        <li *ngIf="employeeForm.controls['ssn'].errors && employeeForm.controls['ssn'].errors['required']">
+          SSN is required (digits only).
+        </li>
+        <li
+          *ngIf="employeeForm.controls['ssn_confirmation'].errors && employeeForm.controls['ssn_confirmation'].errors['required']">
+          SSN confirmation is required (digits only).
+        </li>
+        <li *ngIf="employeeForm.errors && employeeForm.errors['ssnNotMatch']">
+          SSN Confirmation is not matched with SSN.
+        </li>
+        <li *ngIf="employeeForm.controls['dob'].errors && employeeForm.controls['dob'].errors['required']">
+          Date Of Birth is required.
+        </li>
+        <li *ngIf="employeeForm.controls['state'].errors && employeeForm.controls['state'].errors['required']">
+          State is required.
+        </li>
+        <li *ngIf="employeeForm.controls['location'].errors && employeeForm.controls['location'].errors['required']">
+          Location is required.
+        </li>
+        <li
+          *ngIf="employeeForm.controls['address_line_1'].errors && employeeForm.controls['address_line_1'].errors['required']">
+          address is required.
+        </li>
+        <li
+          *ngIf="employeeForm.controls['first_name'].errors && employeeForm.controls['first_name'].errors['minlength']">
+          First Name minimum length should be 2.
+        </li>
+        <li *ngIf="employeeForm.controls['last_name'].errors && employeeForm.controls['last_name'].errors['minlength']">
+          Last Name minimum length should be 2.
+        </li>
+        <li
+          *ngIf="employeeForm.controls['address_line_1'].errors && employeeForm.controls['address_line_1'].errors['minlength']">
+          Address minimum length should be 2.
+        </li>
+        <li *ngIf="employeeForm.controls['city'].errors && employeeForm.controls['city'].errors['minlength']">
+          City minimum length should be 2.
+        </li>
+        <li *ngIf="employeeForm.controls['zip'].errors && employeeForm.controls['zip'].errors['minlength']">
+          Zip minimum length should be 5.
+        </li>
+        <li
+          *ngIf="!!this.employeeForm.get('ssn')?.value && this.employeeForm.get('ssn')?.value?.toString().length != 9">
+          Social security number is the wrong length (should be 9 characters).
+        </li>
+        <li *ngIf="employeeForm.controls['dob'].errors && employeeForm.controls['dob'].errors['notADate']">
+          Date of Birth is not a date.
+        </li>
+        <li *ngIf="employeeForm.controls['dob'].errors && employeeForm.controls['dob'].errors['invalidDate']">
+          Date of Birth is invalid.
+        </li>
+        <li *ngIf="employeeForm.controls['dob'].errors && employeeForm.controls['dob'].errors['dobMinAgeError']">
+          Minimum age should be 15.
+        </li>
+      </ul>
+    </div>
+    <div class="bd-callout bd-callout-danger"
+      *ngIf="employee?.data?.serverErrors && !employee?.data?.employee_info?.hasErrors">
+      <h6>Please complete the following required information.</h6>
+      <ul>
+        <li *ngFor="let error of employee?.data?.serverErrors?.split(',')">{{ error }}</li>
+      </ul>
+    </div>
+    <form [formGroup]="employeeForm">
+      <div class="row form-row-padding">
+        <div class="col-md-4">
+          <mat-form-field class="input-full-width">
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="first_name" (keydown)="alphaOnly($event)" (paste)="alphaOnly($event)">
+          </mat-form-field>
+          <div *ngIf="(employeeForm.controls['first_name'].dirty || employeeForm.controls['first_name'].touched) &&
+          employeeForm.controls['first_name'].errors">
+            <mat-error *ngIf="employeeForm.controls['first_name'].errors['required']">
+              First Name is required.
+            </mat-error>
+            <mat-error *ngIf="employeeForm.controls['first_name'].errors['minlength']">
+              First Name minimum length should be 2.
+            </mat-error>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field class="input-full-width">
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="last_name" (keydown)="alphaOnly($event)" (paste)="alphaOnly($event)">
+          </mat-form-field>
+          <div *ngIf="(employeeForm.controls['last_name'].dirty || employeeForm.controls['last_name'].touched) &&
+          employeeForm.controls['last_name'].errors">
+            <mat-error *ngIf="employeeForm.controls['last_name'].errors['required']">
+              Last Name is required.
+            </mat-error>
+            <mat-error *ngIf="employeeForm.controls['last_name'].errors['minlength']">
+              Last Name minimum length should be 2.
+            </mat-error>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field class="input-full-width">
+            <mat-label>Suffix</mat-label>
+            <mat-select formControlName="suffix">
+              <mat-option *ngFor="let suffix of suffixes" [value]="suffix">
+                {{suffix}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row form-row-padding">
+        <div class="col-md-6">
+          <mat-form-field class="input-full-width">
+            <mat-label>address</mat-label>
+            <input matInput formControlName="address_line_1">
+          </mat-form-field>
+          <div *ngIf="(employeeForm.controls['address_line_1'].dirty || employeeForm.controls['address_line_1'].touched) &&
+          employeeForm.controls['address_line_1'].errors">
+            <mat-error *ngIf="employeeForm.controls['address_line_1'].errors['required']">
+              Address is required.
+            </mat-error>
+            <mat-error *ngIf="employeeForm.controls['address_line_1'].errors['minlength']">
+              Address minimum length should be 2.
+            </mat-error>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field class="input-full-width">
+            <mat-label>address 2</mat-label>
+            <input matInput formControlName="address_line_2">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row form-row-padding">
+        <div class="col-md-4">
+          <mat-form-field class="input-full-width">
+            <mat-label>City</mat-label>
+            <input matInput formControlName="city">
+          </mat-form-field>
+          <div *ngIf="(employeeForm.controls['city'].dirty || employeeForm.controls['city'].touched) &&
+          employeeForm.controls['city'].errors">
+            <mat-error *ngIf="employeeForm.controls['city'].errors['required']">
+              City is required.
+            </mat-error>
+            <mat-error *ngIf="employeeForm.controls['city'].errors['minlength']">
+              City minimum length should be 2.
+            </mat-error>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field class="input-full-width">
+            <mat-label>State</mat-label>
+            <mat-select formControlName="state" (selectionChange)="selectedState()">
+              <mat-option *ngFor="let state of states" [value]="state">
+                {{state.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div *ngIf="(employeeForm.controls['state'].dirty || employeeForm.controls['state'].touched) &&
+          employeeForm.controls['state'].errors">
+            <mat-error *ngIf="employeeForm.controls['state'].errors['required']">
+              State is required.
+            </mat-error>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field class="input-full-width">
+            <mat-label>Zip</mat-label>
+            <input matInput maxlength="5" formControlName="zip" (keydown)="digitsOnly($event)"
+              (paste)="digitsOnly($event)">
+          </mat-form-field>
+          <div *ngIf="(employeeForm.controls['zip'].dirty || employeeForm.controls['zip'].touched) &&
+          employeeForm.controls['zip'].errors">
+            <mat-error *ngIf="employeeForm.controls['zip'].errors['required']">
+              Zip is required.
+            </mat-error>
+            <mat-error *ngIf="employeeForm.controls['zip'].errors['minlength']">
+              Zip minimum length should be 5.
+            </mat-error>
+          </div>
+        </div>
+      </div>
+      <div class="row form-row-padding">
+        <div class="col-md-4" *ngIf="!canValidateSSn">
+          <mat-form-field class="input-full-width">
+            <mat-label>Social Security Number (SSN) </mat-label>
+            <input type="password" matInput formControlName="ssn" (keydown)="digitsOnly($event)"
+              (paste)="digitsOnly($event)" maxlength="9">
+          </mat-form-field>
+          <div *ngIf="(employeeForm.controls['ssn'].dirty || employeeForm.controls['ssn'].touched) &&
+          employeeForm.controls['ssn'].errors">
+            <mat-error *ngIf="employeeForm.controls['ssn'].errors['required']">
+              SSN is required (digits only).
+            </mat-error>
+          </div>
+        </div>
+        <div class="col-md-4" *ngIf="!canValidateSSn">
+          <mat-form-field class="input-full-width">
+            <mat-label>SSN Confirmation </mat-label>
+            <input matInput formControlName="ssn_confirmation" (keydown)="digitsOnly($event)"
+              (paste)="digitsOnly($event)" maxlength="9">
+          </mat-form-field>
+          <div *ngIf="(employeeForm.controls['ssn_confirmation'].dirty || employeeForm.controls['ssn_confirmation'].touched) &&
+            employeeForm.errors ">
+            <mat-error
+              *ngIf="employeeForm.controls['ssn_confirmation'].errors && employeeForm.controls['ssn_confirmation'].errors['required']">
+              SSN confirmation is required (digits only).
+            </mat-error>
+            <mat-error *ngIf="employeeForm.errors['ssnNotMatch']">
+              SSN Confirmation is not matched with SSN.
+            </mat-error>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field class="input-full-width">
+            <mat-label>Date Of Birth</mat-label>
+            <input matInput [matDatepicker]="picker" [min]="dobStartDate" [max]="dobEndDate" formControlName="dob">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker [startAt]="dobEndDate"></mat-datepicker>
+          </mat-form-field>
+          <div *ngIf="(employeeForm.controls['dob'].dirty || employeeForm.controls['dob'].touched) &&
+          employeeForm.controls['dob'].errors">
+            <mat-error *ngIf="employeeForm.controls['dob'].errors['required']">
+              Date Of Birth is required.
+            </mat-error>
+            <mat-error *ngIf="employeeForm.controls['dob'].errors['notADate']">
+              Date of Birth is not a date.
+            </mat-error>
+            <mat-error
+              *ngIf="employeeForm.controls['dob'].errors && employeeForm.controls['dob'].errors['invalidDate']">
+              Date of Birth is invalid.
+            </mat-error>
+            <mat-error *ngIf="employeeForm.controls['dob'].errors['dobMinAgeError']">
+              Minimum age should be 15.
+            </mat-error>
+          </div>
+        </div>
+      </div>
+      <div class="row form-row-padding">
+        <div class="col-md-9">
+          <mat-label>Have you ever worked for this company before? *</mat-label>
+          <mat-radio-group formControlName="rehire" class="radio" (change)="rehire()">
+            <mat-radio-button [value]="true" color="primary">Yes</mat-radio-button>
+            <mat-radio-button [value]="false" color="warn">No</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
+  

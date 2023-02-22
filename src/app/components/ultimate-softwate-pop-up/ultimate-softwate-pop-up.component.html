@@ -1,0 +1,7 @@
+<div mat-dialog-title class="dialog-title">{{ info.title }}</div>
+<mat-dialog-content>
+    {{info.message}}: <b><i><u>{{info.id}}</u></i></b>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-raised-button mat-dialog-close color="primary" (click)="close()">CLOSE</button>
+</mat-dialog-actions>

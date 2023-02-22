@@ -1,0 +1,73 @@
+<div class="grid-container">
+    <div class="grid-item">
+        <button mat-button color="accent" (click)="changeLanguage()">{{LangButtonText}}</button>
+    </div>
+    
+    <div class="grid-item">
+        <div *ngIf="empData.data.pluginInput?.logo; else elseBlock">
+            <img [src]="empData.data.pluginInput.logo" alt="No Image" >
+        </div>
+        <ng-template #elseBlock>
+            <h1 mat-dialog-title>RETROTAX</h1>
+        </ng-template>
+    </div>
+    <div class="grid-item">
+        <div class="example-button-container">
+            <button mat-mini-fab color="accent" aria-label="Close" (click)="closeDialog()">
+                <i class="material-icons">close</i>
+            </button>
+        </div>
+    </div>
+    
+</div>
+
+<div mat-dialog-content>
+    <div class="content" *ngIf="!loading">
+        <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+            <mat-expansion-panel-header>
+                Basic Info {{Firstname+" "+Lastname}}
+            </mat-expansion-panel-header>
+            <app-employee-information #EmployeeInfo></app-employee-information>
+        </mat-expansion-panel>
+        <br>
+    
+        <div class="rehire" *ngIf="ShowWotcForm">
+            <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)"  hideToggle>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        WOTC Questionere
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <app-wotc-questionnaire #WOTC></app-wotc-questionnaire>
+            </mat-expansion-panel>    
+        <br>
+        </div>
+       
+        
+        <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    JOB INFO
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <app-job-information #JobInfo></app-job-information>
+            </mat-expansion-panel>
+        <br>
+            <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Authorization Questionaire
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <app-electronic-signature #Esign></app-electronic-signature>
+            </mat-expansion-panel>
+        <br>
+    </div>
+    <div class="loader" *ngIf="loading">
+        <app-loading [loadingText]="'Retriving User Information'"></app-loading>
+    </div>
+</div>
+
+<div mat-dialog-actions>
+    <!-- to close the form use  [mat-dialog-close] as attribute-->
+    <button color="primary" mat-raised-button  cdkFocusInitial (click)="formSubmit()">Submit</button>
+</div>

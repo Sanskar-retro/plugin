@@ -1,0 +1,222 @@
+<div class="job-form">
+    <mat-card class="card-padding" ngClass="r-box-shadow">
+      
+      <mat-card-content>
+        <div class="bd-callout bd-callout-danger" *ngIf="employee?.data?.hiring_manager_info?.hasErrors || PluginFormError">
+          <h6> Please complete the Hiring Manager Information.</h6>
+          <div>
+            <ul>
+              <li *ngIf=" jobInformationForm.controls['starting_wage'].errors &&
+          jobInformationForm.controls['starting_wage'].errors['required']">
+                Starting Wage is required.
+              </li>
+              <li
+                *ngIf="jobInformationForm.controls['starting_wage'].errors && jobInformationForm.controls['starting_wage'].errors['max']">
+                Please enter an hourly wage between $1 and $100.
+              </li>
+              <li
+                *ngIf="jobInformationForm.controls['starting_wage'].errors && jobInformationForm.controls['starting_wage'].errors['min']">
+                Please enter an hourly wage between $1 and $100.
+              </li>
+              <li
+                *ngIf="jobInformationForm.controls['occupation_id'].errors && jobInformationForm.controls['occupation_id'].errors['required']">
+                Starting Position is required.
+              </li>
+              <li
+                *ngIf="jobInformationForm.controls['dgi'].errors && jobInformationForm.controls['dgi'].errors['required']">
+                Date Gave Information is required.
+              </li>
+              <li
+                *ngIf="jobInformationForm.controls['dojo'].errors && jobInformationForm.controls['dojo'].errors['required']">
+                Date of Job Offer is required.
+              </li>
+              <li
+                *ngIf="jobInformationForm.controls['doh'].errors && jobInformationForm.controls['doh'].errors['required']">
+                Date of Hire is required.
+              </li>
+              <li
+                *ngIf="jobInformationForm.controls['dsw'].errors && jobInformationForm.controls['dsw'].errors['required']">
+                Date Started Work is required.
+              </li>
+              <li
+                *ngIf="jobInformationForm.controls['dgi'].errors && jobInformationForm.controls['dgi'].errors['matDatepickerMax']">
+                Date Gave Information cannot be greater than today's date.
+              </li>
+              <li *ngIf="jobInformationForm.errors && jobInformationForm.errors['dsw_error']">
+                Date Started Work must be on or after Date of Hire.
+              </li>
+              <li *ngIf="jobInformationForm.errors && jobInformationForm.errors['dojo_error']">
+                Date of Job Offer must be on or after Date Gave Information.
+              </li>
+              <li *ngIf="jobInformationForm.errors && jobInformationForm.errors['doh_error']">
+                Date of Hire must be on or after Date of Job Offer.
+              </li>
+              <li
+                *ngIf="jobInformationForm.controls['dgi'].errors && jobInformationForm.controls['dgi'].errors['notADate']">
+                Date Gave Information is not a date.
+              </li>
+              <li
+                *ngIf="jobInformationForm.controls['dojo'].errors && jobInformationForm.controls['dojo'].errors['notADate']">
+                Date of Job Offer is not a date.
+              </li>
+              <li
+                *ngIf="jobInformationForm.controls['doh'].errors && jobInformationForm.controls['doh'].errors['notADate']">
+                Date of Hire is not a date.
+              </li>
+              <li
+                *ngIf="jobInformationForm.controls['dsw'].errors && jobInformationForm.controls['dsw'].errors['notADate']">
+                Date Started Work is not a date.
+              </li>
+            </ul>
+          </div>
+        </div>
+        <form [formGroup]="jobInformationForm">
+          <div class="row form-row-padding">
+            <div class="col-md-6">
+              <mat-form-field class="input-full-width">
+                <mat-label>Starting Position</mat-label>
+                <mat-select formControlName="occupation_id">
+                  <mat-option *ngFor="let occupation of occupations" [value]="occupation">
+                    {{occupation.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <div *ngIf="(jobInformationForm.controls['occupation_id'].dirty || jobInformationForm.controls['occupation_id'].touched || jobInformationForm.controls['occupation_id'].value) && jobInformationForm.controls['occupation_id'].errors">
+                <mat-error *ngIf="jobInformationForm.controls['occupation_id'].errors['required']">
+                  Starting Position is required.
+                </mat-error>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field class="input-full-width">
+                <mat-label>Starting Hourly Wage</mat-label>
+                <input type="number" matInput formControlName="starting_wage" [min]="1" [max]="100">
+              </mat-form-field>
+              <div *ngIf="(jobInformationForm.controls['starting_wage'].dirty || jobInformationForm.controls['starting_wage'].touched || jobInformationForm.controls['starting_wage'].value) &&
+              jobInformationForm.controls['starting_wage'].errors">
+                <mat-error *ngIf="jobInformationForm.controls['starting_wage'].errors['required']">
+                  Starting Wage is required.
+                </mat-error>
+                <mat-error *ngIf="jobInformationForm.controls['starting_wage'].errors['max']">
+                  Please enter an hourly wage between $1 and $100.
+                </mat-error>
+                <mat-error *ngIf="jobInformationForm.controls['starting_wage'].errors['min']">
+                  Please enter an hourly wage between $1 and $100.
+                </mat-error>
+              </div>
+            </div>
+          </div>
+          <div class="row form-row-padding">
+            <div [ngClass]="role === 'processor'? 'offset-md-1 col-md-3' : 'offset-md-1 col-md-4'">
+              <mat-form-field class="input-full-width">
+                <mat-label>Date Gave Information</mat-label>
+                <input matInput [matDatepicker]="picker1" [max]="today" formControlName="dgi"
+                  (keydown)="dateCheck($event)" (paste)="dateCheck($event)">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+              </mat-form-field>
+              <div *ngIf="(jobInformationForm.controls['dgi'].dirty || jobInformationForm.controls['dgi'].touched || jobInformationForm.controls['dgi'].value) &&
+              jobInformationForm.controls['dgi'].errors">
+                <mat-error *ngIf="jobInformationForm.controls['dgi'].errors['required']">
+                  Date Gave Information is required.
+                </mat-error>
+                <mat-error *ngIf="jobInformationForm.controls['dgi'].errors['notADate']">
+                  Date Gave Information is not a date.
+                </mat-error>
+                <mat-error *ngIf="jobInformationForm.controls['dgi'].errors['matDatepickerMax']">
+                  Date Gave Information cannot be greater than today's date.
+                </mat-error>
+              </div>
+            </div>
+            <div [ngClass]="role === 'processor'? 'offset-md-1 col-md-3' : 'offset-md-1 col-md-4'">
+              <mat-form-field class="input-full-width">
+                <mat-label>Date Of Job Offer</mat-label>
+                <input matInput [matDatepicker]="picker2" [max]="today" formControlName="dojo"
+                  (keydown)="dateCheck($event)" (paste)="dateCheck($event)">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+              </mat-form-field>
+              <div *ngIf="(jobInformationForm.controls['dojo'].dirty || jobInformationForm.controls['dojo'].touched || jobInformationForm.controls['dojo'].value)&&
+              jobInformationForm.controls['dojo'].errors">
+                <mat-error *ngIf="jobInformationForm.controls['dojo'].errors['required']">
+                  Date of Job Offer is required.
+                </mat-error>
+                <mat-error *ngIf="jobInformationForm.controls['dojo'].errors['notADate']">
+                  Date of Job Offer is not a date.
+                </mat-error>
+                <mat-error *ngIf="jobInformationForm.controls['dojo'].errors['matDatepickerMax']">
+                  Date of Job Offer cannot be greater than today's date.
+                </mat-error>
+              </div>
+              <div
+                *ngIf="(jobInformationForm.controls['dojo'].dirty || jobInformationForm.controls['dojo'].touched || jobInformationForm.controls['dojo'].value)">
+                <mat-error *ngIf="jobInformationForm.errors && jobInformationForm.errors['dojo_error']">
+                  Date of Job Offer must be on or after Date Gave Information.
+                </mat-error>
+              </div>
+            </div>
+            <div [ngClass]="role === 'processor'? 'offset-md-1 col-md-3' : 'offset-md-1 col-md-4'">
+              <mat-form-field class="input-full-width">
+                <mat-label>Date Of Hire</mat-label>
+                <input matInput [matDatepicker]="picker3" formControlName="doh" (keydown)="dateCheck($event)"
+                  (paste)="dateCheck($event)">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                <mat-datepicker #picker3></mat-datepicker>
+              </mat-form-field>
+              <div *ngIf="(jobInformationForm.controls['doh'].dirty || jobInformationForm.controls['doh'].touched || jobInformationForm.controls['doh'].value) &&
+              jobInformationForm.controls['doh'].errors">
+                <mat-error *ngIf="jobInformationForm.controls['doh'].errors['required']">
+                  Date of Hire is required.
+                </mat-error>
+                <mat-error *ngIf="jobInformationForm.controls['doh'].errors['notADate']">
+                  Date of Hire is not a date.
+                </mat-error>
+              </div>
+              <div
+                *ngIf="(jobInformationForm.controls['doh'].dirty || jobInformationForm.controls['doh'].touched || jobInformationForm.controls['doh'].value)">
+                <mat-error *ngIf="jobInformationForm.controls['doh'].value < jobInformationForm.controls['dojo'].value">
+                  Date of Hire must be on or after Date of Job Offer.
+                </mat-error>
+              </div>
+              <div
+                *ngIf="role === 'processor' && (jobInformationForm.controls['doh'].dirty || jobInformationForm.controls['doh'].touched || jobInformationForm.controls['doh'].value)">
+                <mat-error *ngIf="dateStartedWork < jobInformationForm.controls['doh'].value">
+                  Date Started Work must be on or after Date of Hire.
+                </mat-error>
+              </div>
+            </div>
+            <div class="offset-md-1 col-md-4" *ngIf="role !== 'processor'">
+              <mat-form-field class="input-full-width">
+                <mat-label>Date Started Work</mat-label>
+                <input matInput [matDatepicker]="picker4" formControlName="dsw" (keydown)="dateCheck($event)"
+                  (paste)="dateCheck($event)">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                <mat-datepicker #picker4></mat-datepicker>
+              </mat-form-field>
+              <div *ngIf="(jobInformationForm.controls['dsw'].dirty || jobInformationForm.controls['dsw'].touched || jobInformationForm.controls['dsw'].value) &&
+              jobInformationForm.controls['dsw'].errors">
+                <mat-error *ngIf="jobInformationForm.controls['dsw'].errors['required']">
+                  Date Started Work is required.
+                </mat-error>
+                <mat-error *ngIf="jobInformationForm.controls['dsw'].errors['notADate']">
+                  Date Started Work is not a date.
+                </mat-error>
+              </div>
+              <div
+                *ngIf="(jobInformationForm.controls['dsw'].dirty || jobInformationForm.controls['dsw'].touched || jobInformationForm.controls['dsw'].value)">
+                <mat-error *ngIf="jobInformationForm.errors && jobInformationForm.errors['dsw_error']">
+                  Date Started Work must be on or after Date of Hire.
+                </mat-error>
+              </div>
+            </div>
+          </div>
+        </form>
+        <hr />
+      </mat-card-content>
+    </mat-card>
+  </div>
+  
